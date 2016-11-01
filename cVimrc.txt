@@ -1,0 +1,66 @@
+"Settings 
+let scrolltep = 30
+let fullpagescrollpercent = 100
+"set nohud
+set autohidecursor
+"set noinsertmappings
+set nosmoothscroll
+let blacklists = ["https://mail.google.com/*", "https://tweetdeck.twitter.com/*"]
+let mapleader = ","
+"let locale = "jp"
+let hintcharacters = "hjklasdfgyuiopqwertnmzxcvb"
+let barposition = "bottom"
+set autoupdategist
+
+" qmarks
+" google mail/task/calendar                                                                                
+" google translator en/ja/language tool                                          
+let qmark e = ["javascript:var%20t=((window.getSelection&&window.getSelection())%7C%7C(document.getSelection&&document.getSelection())%7C%7C(document.selection&&document.selection.createRange&&document.selection.createRange().text));var%20e=(document.charset%7C%7Cdocument.characterSet);if(t!='')%7Blocation.href='http://translate.google.com/translate_t?text='+t+'&hl=ja&langpair=auto%7Cen&tbb=1&ie='+e;%7Delse%7Blocation.href='http://translate.google.com/translate?u='+escape(location.href)+'&hl=ja&langpair=auto%7Cen&tbb=1&ie='+e;%7D;"]
+let qmark j = ["javascript:var%20t=((window.getSelection&&window.getSelection())%7C%7C(document.getSelection&&document.getSelection())%7C%7C(document.selection&&document.selection.createRange&&document.selection.createRange().text));var%20e=(document.charset%7C%7Cdocument.characterSet);if(t!='')%7Blocation.href='http://translate.google.com/?text='+t+'&hl=ja&langpair=auto%7Cja&tbb=1&ie='+e;%7Delse%7Blocation.href='http://translate.google.com/translate?u='+encodeURIComponent(location.href)+'&hl=ja&langpair=auto%7Cja&tbb=1&ie='+e;%7D;"]
+let qmark l = ["http://www.google.com/language_tools"]
+" Feedly/Pocket/GitHub
+let qmark f = ["http://cloud.feedly.com/#latest"]                                   
+let qmark p = ["http://getpocket.com/a/queue/"]                                     
+
+" unmap
+unmap x H S L D
+
+
+" Move
+map b scrollFullPageUp
+map <C-b> scrollFullPageUp
+map <C-f> scrollFullPageDown
+
+" Navigation
+"map <C-w> closeTab
+map <C-z> lastClosedTab
+map <C-h> previousTab
+map <C-l> nextTab
+map <C-i> goForward
+map u goBack
+map :wo :new<Space>
+map ;wo :new<Space>
+map R reloadTabUncached
+map T :buffer 
+map B :bookmarks
+
+" Want to make a key to yank current selected word and search it...
+"map <C-g> :execute vlhyP<CR>
+
+" Currently, ":" doesn't shows command line.
+" Need at least one charactor (use <Space> here)
+map ; :<Space>
+
+" Text boxes
+iunmapAll
+imap <C-h> deleteChar
+imap <C-d> deleteForwardChar
+imap <C-k> deleteToEnd
+imap <C-u> deleteToBeginning
+imap <C-w> deleteWord
+imap <C-b> backwardChar
+imap <C-f> forwardChar
+imap <C-a> begginingOfLine
+imap <C-e> endOfLine
+imap <C-n> forwardLine
+imap <C-p> backwardLine
