@@ -41,7 +41,7 @@ map u goBack
 map :wo :new<Space>
 map ;wo :new<Space>
 map R reloadTabUncached
-map T :buffer 
+map T :buffer<Space>
 map B :bookmarks
 
 " Want to make a key to yank current selected word and search it...
