@@ -1,0 +1,33 @@
+name: command_in_docker_container
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      cmd:
+        description: command
+        required: true
+        default: echo Hello World
+
+jobs:
+  command_in_docker_container:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os:
+          - 'ubuntu:12.04'
+          - 'ubuntu:14.04'
+          - 'ubuntu:16.04'
+          - 'ubuntu:18.04'
+          - 'ubuntu:20.04'
+          - 'debian:7'
+          - 'debian:8'
+          - 'debian:9'
+          - 'debian:10'
+          - 'debian:11'
+    container:
+      image: ${{ matrix.os }}
+      env:
+        DEBIAN_FRONTEND: noninteractive
+    steps:
+      - run: ${{ github.event.inputs.cmd }}
