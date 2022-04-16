@@ -1,0 +1,20 @@
+name: command_in_github_virtual_env
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      os:
+        description: OS
+        required: true
+        default: ubuntu-latest
+      cmd:
+        description: command
+        required: true
+        default: echo Hello World
+
+jobs:
+  command_in_github_virtual_env:
+    runs-on: ${{ github.event.inputs.os }}
+    steps:
+      - run: ${{ github.event.inputs.cmd }}
