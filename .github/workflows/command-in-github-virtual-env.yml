@@ -6,15 +6,14 @@ on:
     inputs:
       os:
         description: OS
-        required: true
+        required: false
         default: ubuntu-latest
       cmd:
         description: command
         required: true
-        default: echo Hello World
 
 jobs:
   command_in_github_virtual_env:
-    runs-on: ${{ github.event.inputs.os }}
+    runs-on: ${{ github.event.inputs.os || 'ubuntu-latest' }}
     steps:
-      - run: ${{ github.event.inputs.cmd }}
+      - run: ${{ github.event.inputs.cmd || 'echo' }}
