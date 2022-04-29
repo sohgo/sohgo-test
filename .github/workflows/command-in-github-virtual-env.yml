@@ -1,3 +1,4 @@
+---
 name: command_in_github_virtual_env
 on:
   push:
@@ -10,10 +11,43 @@ on:
         default: ubuntu-latest
       cmd:
         description: command
+        required: false
+      docker_hub_repository_name:
+        description: docker hub repository name
         required: true
+        default: faxocr-allinone
+      docker_hub_tag_name:
+        description: docker hub tag name
+        required: true
+        default: latest
+      push_control_on_container_build_status:
+        description: building result of docker container
+        required: true
+        default: success()
 
 jobs:
   command_in_github_virtual_env:
     runs-on: ${{ github.event.inputs.os || 'ubuntu-latest' }}
+    environment:
+      name: dockerhub
     steps:
-      - run: ${{ github.event.inputs.cmd || 'echo' }}
+      - name: pull lapine:latest image
+        run: docker pull alpine:latest
+      - name: tag lapine:latest to sohgo/alpine:latest
+        run: docker tag alpine:latest ${{ secrets.DOCKER_HUB_USER_NAME }}/${{ github.event.inputs.docker_hub_repository_name }}:${{ github.event.inputs.docker_hub_tag_name }}
+      - name: show image
+        run: docker image ls
+      - name: Login to Docker Hub
+        uses: actions-hub/docker/login@master
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USER_NAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          DOCKER_REGISTRY_URL: docker.io
+      - name: run command
+        run: ${{ github.event.inputs.cmd || 'echo' }}
+      # push
+      - name: Deploy :latest
+        if: ${{ github.event.inputs.push_control_on_container_build_status }}
+        uses: actions-hub/docker@master
+        with:
+          args: push ${{ secrets.DOCKER_HUB_USER_NAME }}/${{ github.event.inputs.docker_hub_repository_name }}:${{ github.event.inputs.docker_hub_tag_name }}
