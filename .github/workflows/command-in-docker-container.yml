@@ -12,6 +12,7 @@ jobs:
   command_in_docker_container:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         os:
           - 'ubuntu:12.04'
