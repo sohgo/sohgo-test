@@ -1,0 +1,40 @@
+name: deploy
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: deploy target
+        type: choice
+        default: staging
+        required: true
+        options:
+          - staging
+          - production
+
+jobs:
+  deploy:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: set env vars for staging
+        if: ${{ inputs.target == 'staging' }}
+        run: |
+          echo "I_SSH_HOST=${{ vars.DEPLOY_STAGING_SSH_HOST }}" >> $GITHUB_ENV
+          echo "I_SSH_PORT=${{ vars.DEPLOY_STAGING_SSH_PORT }}" >> $GITHUB_ENV
+          echo "I_SSH_USERNAME=${{ vars.DEPLOY_STAGING_SSH_USERNAME }}" >> $GITHUB_ENV
+          echo "I_SSH_CMD=${{ vars.DEPLOY_STAGING_SSH_CMD }}" >> $GITHUB_ENV
+      - name: set env vars for production
+        if: ${{ inputs.target == 'production' }}
+        run: |
+          echo "I_SSH_HOST=${{ vars.DEPLOY_PRODUCTION_SSH_HOST }}" >> $GITHUB_ENV
+          echo "I_SSH_PORT=${{ vars.DEPLOY_PRODUCTION_SSH_PORT }}" >> $GITHUB_ENV
+          echo "I_SSH_USERNAME=${{ vars.DEPLOY_PRODUCTION_SSH_USERNAME }}" >> $GITHUB_ENV
+          echo "I_SSH_CMD=${{ vars.DEPLOY_PRODUCTION_SSH_CMD }}" >> $GITHUB_ENV
+
+      - name: deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.I_SSH_HOST }}
+          port: ${{ env.I_SSH_PORT }}
+          username: ${{ env.I_SSH_USERNAME }}
+          key: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+          script: ${{ env.I_SSH_CMD }}
