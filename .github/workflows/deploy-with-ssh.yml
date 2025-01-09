@@ -10,6 +10,10 @@ on:
         options:
           - staging
           - production
+      debug:
+        description: debug mode
+        type: boolean
+        default: false
 
 jobs:
   deploy:
@@ -27,6 +31,7 @@ jobs:
           key: ${{ secrets.DEPLOY_STAGING_SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.DEPLOY_STAGING_SSH_PRIVATE_KEY_PASSPHRASE }}
           script: ${{ vars.DEPLOY_STAGING_SSH_CMD }}
+          debug: ${{ inputs.debug }}
 
       - name: deploy to production
         if: ${{ inputs.target == 'production' }}
@@ -39,3 +44,4 @@ jobs:
           key: ${{ secrets.DEPLOY_PRODUCTION_SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.DEPLOY_PRODUCTION_SSH_PRIVATE_KEY_PASSPHRASE }}
           script: ${{ vars.DEPLOY_PRODUCTION_SSH_CMD }}
+          debug: ${{ inputs.debug }}
