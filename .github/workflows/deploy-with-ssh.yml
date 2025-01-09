@@ -26,7 +26,7 @@ jobs:
       # GITHUB ENVIROMENT is appropriate to use, but it is not available for private repository
       - name: deploy to staging
         if: ${{ inputs.target == 'staging' }}
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ vars.DEPLOY_STAGING_SSH_HOST }}
           port: ${{ vars.DEPLOY_STAGING_SSH_PORT }}
@@ -39,7 +39,7 @@ jobs:
 
       - name: deploy to production
         if: ${{ inputs.target == 'production' }}
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ vars.DEPLOY_PRODUCTION_SSH_HOST }}
           port: ${{ vars.DEPLOY_PRODUCTION_SSH_PORT }}
