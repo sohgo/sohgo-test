@@ -10,6 +10,10 @@ on:
         options:
           - staging
           - production
+      fingerprint:
+        description: server fingerprint
+        type: string
+        required: true
       cipher:
         description: cipher
         type: choice
@@ -36,7 +40,7 @@ jobs:
         with:
           host: ${{ vars.DEPLOY_STAGING_SSH_HOST }}
           port: ${{ vars.DEPLOY_STAGING_SSH_PORT }}
-          fingerprint: ${{ vars.DEPLOY_STAGING_SSH_HOST_FINGERPRINT }}
+          fingerprint: ${{inputs.fingerprint }}
           username: ${{ vars.DEPLOY_STAGING_SSH_USERNAME }}
           key: ${{ secrets.DEPLOY_STAGING_SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.DEPLOY_STAGING_SSH_PRIVATE_KEY_PASSPHRASE }}
@@ -50,7 +54,7 @@ jobs:
         with:
           host: ${{ vars.DEPLOY_PRODUCTION_SSH_HOST }}
           port: ${{ vars.DEPLOY_PRODUCTION_SSH_PORT }}
-          fingerprint: ${{ vars.DEPLOY_PRODUCTION_SSH_HOST_FINGERPRINT }}
+          fingerprint: ${{inputs.fingerprint }}
           username: ${{ vars.DEPLOY_PRODUCTION_SSH_USERNAME }}
           key: ${{ secrets.DEPLOY_PRODUCTION_SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.DEPLOY_PRODUCTION_SSH_PRIVATE_KEY_PASSPHRASE }}
