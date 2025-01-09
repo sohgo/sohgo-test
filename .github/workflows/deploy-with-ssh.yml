@@ -14,16 +14,6 @@ on:
         description: server fingerprint
         type: string
         required: true
-      cipher:
-        description: cipher
-        type: choice
-        default: ed25519
-        required: true
-        options:
-          - ed25519
-          - rsa
-          - ecdsa
-          - dsa
       debug:
         description: debug mode
         type: boolean
@@ -46,7 +36,6 @@ jobs:
           passphrase: ${{ secrets.DEPLOY_STAGING_SSH_PRIVATE_KEY_PASSPHRASE }}
           script: ${{ vars.DEPLOY_STAGING_SSH_CMD }}
           debug: ${{ inputs.debug }}
-          cipher: ${{ inputs.cipher }}
 
       - name: deploy to production
         if: ${{ inputs.target == 'production' }}
@@ -60,4 +49,3 @@ jobs:
           passphrase: ${{ secrets.DEPLOY_PRODUCTION_SSH_PRIVATE_KEY_PASSPHRASE }}
           script: ${{ vars.DEPLOY_PRODUCTION_SSH_CMD }}
           debug: ${{ inputs.debug }}
-          cipher: ${{ inputs.cipher }}
